@@ -1,0 +1,55 @@
+{
+  "coverage": "90.62%",
+  "expectCount": 64,
+  "actualCount": 58,
+  "files": {
+    "nawi/widgets/layout/hlayout/HLayout.js": {
+      "expectCount": 3,
+      "actualCount": 3
+    },
+    "nawi/widgets/layout/hlayout/HLayoutProto.js": {
+      "expectCount": 3,
+      "actualCount": 3
+    },
+    "nawi/widgets/layout/hlayout/HLayoutStyle.js": {
+      "expectCount": 1,
+      "actualCount": 1
+    },
+    "nawi/core/tools/Kernel.js": {
+      "expectCount": 20,
+      "actualCount": 20
+    },
+    "nawi/core/tools/NMap.js": {
+      "expectCount": 20,
+      "actualCount": 14
+    },
+    "nawi/widgets/widget/StyleContainer.js": {
+      "expectCount": 3,
+      "actualCount": 3
+    },
+    "nawi/widgets/view/tabview/TabView.js": {
+      "expectCount": 3,
+      "actualCount": 3
+    },
+    "nawi/widgets/view/tabview/TabViewProto.js": {
+      "expectCount": 3,
+      "actualCount": 3
+    },
+    "nawi/widgets/view/tabview/TabViewStyle.js": {
+      "expectCount": 2,
+      "actualCount": 2
+    },
+    "nawi/widgets/widget/Widget.js": {
+      "expectCount": 3,
+      "actualCount": 3
+    },
+    "nawi/widgets/widget/WidgetProto.js": {
+      "expectCount": 1,
+      "actualCount": 1
+    },
+    "nawi/widgets/widget/WidgetStyle.js": {
+      "expectCount": 2,
+      "actualCount": 2
+    }
+  }
+}

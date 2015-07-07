@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">nawi/core/tools/Kernel.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+</head>
+<body class="layout-container">
+
+<header>
+  <a href="./">Home</a>
+  <a href="identifiers.html">Identifier</a>
+  <a href="source.html">Source</a>
+  
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div data-ice="classWrap">
+  <h2>Class</h2>
+  <ul>
+    
+  <li data-ice="classDoc"><span><a href="class/nawi/widgets/layout/hlayout/HLayout.js~HLayout.html">HLayout</a></span></li>
+<li data-ice="classDoc"><span><a href="class/nawi/widgets/layout/hlayout/HLayoutProto.js~HLayoutProto.html">HLayoutProto</a></span></li>
+<li data-ice="classDoc"><span><a href="class/nawi/widgets/layout/hlayout/HLayoutStyle.js~HLayoutStyle.html">HLayoutStyle</a></span></li>
+<li data-ice="classDoc"><span><a href="class/nawi/core/tools/Kernel.js~Kernel.html">Kernel</a></span></li>
+<li data-ice="classDoc"><span><a href="class/nawi/core/tools/NMap.js~NMap.html">NMap</a></span></li>
+<li data-ice="classDoc"><span><a href="class/nawi/widgets/widget/StyleContainer.js~StyleContainer.html">StyleContainer</a></span></li>
+<li data-ice="classDoc"><span><a href="class/nawi/widgets/view/tabview/TabView.js~TabView.html">TabView</a></span></li>
+<li data-ice="classDoc"><span><a href="class/nawi/widgets/view/tabview/TabViewProto.js~TabViewProto.html">TabViewProto</a></span></li>
+<li data-ice="classDoc"><span><a href="class/nawi/widgets/view/tabview/TabViewStyle.js~TabViewStyle.html">TabViewStyle</a></span></li>
+<li data-ice="classDoc"><span><a href="class/nawi/widgets/widget/Widget.js~Widget.html">Widget</a></span></li>
+<li data-ice="classDoc"><span><a href="class/nawi/widgets/widget/WidgetProto.js~WidgetProto.html">WidgetProto</a></span></li>
+<li data-ice="classDoc"><span><a href="class/nawi/widgets/widget/WidgetStyle.js~WidgetStyle.html">WidgetStyle</a></span></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">nawi/core/tools/Kernel.js</h1>
+<pre class="source-code line-number"><code class="prettyprint linenums" data-ice="content">/**
+ * &lt;src/nawi/core/tools/extentions.js&gt;
+ * @file Kernel class.
+ */
+
+/**
+ * JavaScript language syntax sugar
+ */
+export default class Kernel
+{
+  /**
+   * Kernel static non instantiable constructor
+   */
+  constructor()
+  {
+    throw new Error(&quot;[Nawi] &apos;Kernel&apos; class: cannot create an instance of a static class&quot;);
+  }
+  /**
+   * Tests an variable is being an JavaScript boolean type
+   * @param   {Object}  fun: Testing boolean value
+   * @returns {Boolean} Is a variable a JavaScript boolean
+   */
+  static isBoolean(bool)
+  {
+    return (typeof bool === &quot;boolean&quot;);
+  }
+  /**
+   * Tests an variable is being an JavaScript string type
+   * @param   {Object}  fun: Testing string value
+   * @returns {Boolean} Is a variable a JavaScript string
+   */
+  static isString(str)
+  {
+    return (typeof str === &quot;string&quot;);
+  }
+  /**
+   * Tests an variable is being an JavaScript null type
+   * @param   {Object}  fun: Testing null value
+   * @returns {Boolean} Is a variable a JavaScript null
+   */
+  static isNull(nullValue)
+  {
+    return (nullValue === null);
+  }
+  /**
+   * Tests an variable is being an JavaScript undefined value.
+   * @param   {Object}  undefinedValue - Testing undefined value.
+   * @returns {Boolean} Is a variable a JavaScript undefined.
+   */
+  static isUndefined(undefinedValue)
+  {
+    return (undefinedValue === undefined);
+  }
+  /**
+   * Tests an variable is being an JavaScript function type.
+   * @param   {Function}  _function - Testing function value.
+   * @returns {Boolean} Is a variable a JavaScript function.
+   */
+  static isFunction(_function)
+  {
+    return (typeof _function === &quot;function&quot;);
+  }
+  /**
+   * Tests an variable is being an JavaScript object type
+   * @param   {Object} object: Testing object value
+   * @returns {Boolean} Is a variable a JavaScript object
+   */
+  static isObject(object)
+  {
+    return (typeof object === &quot;object&quot;);
+  }
+  /**
+   * Tests an variable is being an JavaScript array type
+   * @param   {Object} array: Testing object value
+   * @returns {Boolean} Is a variable a JavaScript array
+   */
+  static isArray(array)
+  {
+    return (array instanceof Array);
+  }
+  /**
+   * Tests an variable is being an JavaScript number type
+   * @param   {Object} number: Testing number value
+   * @returns {Boolean} Is a variable a JavaScript number
+   */
+  static isNumber(number)
+  {
+    return (typeof number === &quot;number&quot;);
+  }
+  /**
+   * Defines a invisibles object property (non-enumerable)
+   * @param {Object} object: Destination object
+   * @param {String} name:   Name of destination property
+   * @param {Object} value:  Destination invisible value
+   */
+  static invisible(object, name, value)
+  {
+    Object.defineProperty(object, name,
+    {
+      value     : value,
+      writable  : true,
+      enumerable: false
+    });
+  }
+  /**
+   * Defines a hidden object property (readonly, non-enumerable)
+   * @param {Object} object: Destination object
+   * @param {String} name:   Name of destination property
+   * @param {Object} value:  Destination hidden value
+   */
+  static hidden(object, name, value)
+  {
+    Object.defineProperty(object, name,
+    {
+      value     : value,
+      writable  : false,
+      enumerable: false
+    });
+  }
+  /**
+   * Defines a constant object property (readonly, enumerable)
+   * @param {Object} object: Destination object
+   * @param {String} name:   Name of destination property
+   * @param {Object} value:  Destination constant value
+   */
+  static constant(object, name, value)
+  {
+    Object.defineProperty(object, name,
+    {
+      value   : value,
+      writable: false
+    });
+  }
+  /**
+   * Exteds class
+   * @param {Function} derivedClass: Derived class
+   * @param {Function} baseClass:    Parent class
+   */
+  static extend(derivedClass, baseClass)
+  {
+    derivedClass.prototype = Object.create(baseClass.prototype);
+    derivedClass.prototype.constructor = derivedClass;
+  }
+  /**
+   * Does deep copy of an object
+   * @param {Object} destObj: Destination object
+   * @param {Object} srcObj:  Source object
+   */
+  static copyObject(srcObj)
+  {
+    return Object.assign({}, srcObj);
+    /*var it;
+
+    if(destObj)
+    {
+      if(!isObject(destObj) || destObj === null)
+      {
+        throw new Error(&quot;[Kt] &apos;copyObject&apos; function: &quot; + &quot;a destination object &apos;&quot; + destObj.toString() + &quot;&apos; must have an object type&quot;);
+      }
+
+      for(it in srcObj)
+      {
+        if(!isObject(srcObj[it]) || srcObj[it] === null)
+        {
+          destObj[it] = srcObj[it];
+        }
+        if(isObject(srcObj[it]) &amp;&amp; srcObj[it] !== null &amp;&amp; srcObj[it].length !== undefined)
+        {
+          destObj[it] = [];
+          copyArray(destObj[it], srcObj[it]);
+          continue;
+        }
+        if(isObject(srcObj[it]) &amp;&amp; srcObj[it] !== null)
+        {
+          destObj[it] = {};
+          copyObject(destObj[it], srcObj[it]);
+        }
+      }	
+    }
+    else
+    {
+      throw new Error(&quot;[Kt] &apos;copyObject&apos; function: set a non empty parameter: [object]&quot;);
+    }*/
+  }
+  /**
+   * Does deep copy of an array
+   * @param {Object} destObj: Destination array
+   * @param {Object} srcObj:  Source array
+   */
+  static copyArray(srcArr)
+  {
+    return Array.from(srcArr);
+    /*var it;
+
+    if(destArr)
+    {
+      if(!isObject(destArr) || destArr.length === undefined || destArr === null)
+      {
+        throw new Error(&quot;[Kt] &apos;copyArray&apos; function: &quot; + &quot;a destination object &apos;&quot; + destArr.toString() + &quot;&apos; must have an array type&quot;);
+      }
+
+      for(it in srcArr)
+      {
+        if(!isObject(srcArr[it]) || srcArr[it] === null)
+        {
+          destArr[it] = srcArr[it];
+        }
+        if(isObject(srcArr[it]) &amp;&amp; srcArr[it] !== null &amp;&amp; srcArr[it].length !== undefined)
+        {
+          destArr[it] = [];
+          copyArray(destArr[it], srcArr[it]);
+          continue;
+        }
+        if(isObject(srcArr[it]) &amp;&amp; srcArr[it] !== null)
+        {
+          destArr[it] = {};
+          copyObject(destArr[it], srcArr[it]);
+        }
+      }	
+    }
+    else
+    {
+      throw new Error(&quot;[Kt] &apos;copyArray&apos; function: set a non empty parameter: [array]&quot;);
+    }*/
+  }
+  /**
+   * Defines accessors to an object.
+   * @param {Object}   destObject     Destination object
+   * @param {String}   name           Function name
+   * @param {Function} setterFunction Setter function
+   * @param {Function} getterFunction Getter function
+   */
+  static accessor(destObject, name, setterFunction, getterFunction)
+  {
+    Object.defineProperty(destObject, name,
+    {
+      set: setterFunction,
+      get: getterFunction,
+      enumerable: true
+    });
+  }
+  /**
+   * Makes an array from input parameters
+   * @param {Array} srcParameters: Source parameters
+   * @return {Array} Output array of parameters
+   */
+  static makeParametersArray(srcParameters)
+  {
+    let outParameters;
+
+    if(Kernel.isArray(srcParameters))
+    {
+      outParameters = srcParameters;
+    }
+    else
+    {
+      outParameters = [];
+      outParameters.push(srcParameters);
+    }
+
+    return outParameters;
+  }
+  /**
+   *
+   */
+  static attachClass(element, classList)
+  {
+    let inClassList = Kernel.makeParametersArray(classList);
+
+    for(let i = 0; i &lt; inClassList.length; ++i)
+    {
+      element.classList.add(inClassList[i]);
+    }
+  }
+  /**
+   * Tests a readiness to ES6 features using
+   * @return {Boolean} readiness
+   */
+  static isReadyToES6()
+  {
+    return (
+            !Kernel.isUndefined(Array.from)    &amp;&amp;
+            !Kernel.isUndefined(Object.assign) &amp;&amp;
+            !Kernel.isUndefined(window.Map)
+           );
+  }
+}</code></pre>
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.1.3)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

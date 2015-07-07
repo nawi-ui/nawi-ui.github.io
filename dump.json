@@ -1,0 +1,2763 @@
+[
+  {
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "nawi/core/tools/Kernel.js",
+    "memberof": null,
+    "longname": "nawi/core/tools/Kernel.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 9,
+    "content": "/**\n * <src/nawi/core/tools/extentions.js>\n * @file Kernel class.\n */\n\n/**\n * JavaScript language syntax sugar\n */\nexport default class Kernel\n{\n  /**\n   * Kernel static non instantiable constructor\n   */\n  constructor()\n  {\n    throw new Error(\"[Nawi] 'Kernel' class: cannot create an instance of a static class\");\n  }\n  /**\n   * Tests an variable is being an JavaScript boolean type\n   * @param   {Object}  fun: Testing boolean value\n   * @returns {Boolean} Is a variable a JavaScript boolean\n   */\n  static isBoolean(bool)\n  {\n    return (typeof bool === \"boolean\");\n  }\n  /**\n   * Tests an variable is being an JavaScript string type\n   * @param   {Object}  fun: Testing string value\n   * @returns {Boolean} Is a variable a JavaScript string\n   */\n  static isString(str)\n  {\n    return (typeof str === \"string\");\n  }\n  /**\n   * Tests an variable is being an JavaScript null type\n   * @param   {Object}  fun: Testing null value\n   * @returns {Boolean} Is a variable a JavaScript null\n   */\n  static isNull(nullValue)\n  {\n    return (nullValue === null);\n  }\n  /**\n   * Tests an variable is being an JavaScript undefined value.\n   * @param   {Object}  undefinedValue - Testing undefined value.\n   * @returns {Boolean} Is a variable a JavaScript undefined.\n   */\n  static isUndefined(undefinedValue)\n  {\n    return (undefinedValue === undefined);\n  }\n  /**\n   * Tests an variable is being an JavaScript function type.\n   * @param   {Function}  _function - Testing function value.\n   * @returns {Boolean} Is a variable a JavaScript function.\n   */\n  static isFunction(_function)\n  {\n    return (typeof _function === \"function\");\n  }\n  /**\n   * Tests an variable is being an JavaScript object type\n   * @param   {Object} object: Testing object value\n   * @returns {Boolean} Is a variable a JavaScript object\n   */\n  static isObject(object)\n  {\n    return (typeof object === \"object\");\n  }\n  /**\n   * Tests an variable is being an JavaScript array type\n   * @param   {Object} array: Testing object value\n   * @returns {Boolean} Is a variable a JavaScript array\n   */\n  static isArray(array)\n  {\n    return (array instanceof Array);\n  }\n  /**\n   * Tests an variable is being an JavaScript number type\n   * @param   {Object} number: Testing number value\n   * @returns {Boolean} Is a variable a JavaScript number\n   */\n  static isNumber(number)\n  {\n    return (typeof number === \"number\");\n  }\n  /**\n   * Defines a invisibles object property (non-enumerable)\n   * @param {Object} object: Destination object\n   * @param {String} name:   Name of destination property\n   * @param {Object} value:  Destination invisible value\n   */\n  static invisible(object, name, value)\n  {\n    Object.defineProperty(object, name,\n    {\n      value     : value,\n      writable  : true,\n      enumerable: false\n    });\n  }\n  /**\n   * Defines a hidden object property (readonly, non-enumerable)\n   * @param {Object} object: Destination object\n   * @param {String} name:   Name of destination property\n   * @param {Object} value:  Destination hidden value\n   */\n  static hidden(object, name, value)\n  {\n    Object.defineProperty(object, name,\n    {\n      value     : value,\n      writable  : false,\n      enumerable: false\n    });\n  }\n  /**\n   * Defines a constant object property (readonly, enumerable)\n   * @param {Object} object: Destination object\n   * @param {String} name:   Name of destination property\n   * @param {Object} value:  Destination constant value\n   */\n  static constant(object, name, value)\n  {\n    Object.defineProperty(object, name,\n    {\n      value   : value,\n      writable: false\n    });\n  }\n  /**\n   * Exteds class\n   * @param {Function} derivedClass: Derived class\n   * @param {Function} baseClass:    Parent class\n   */\n  static extend(derivedClass, baseClass)\n  {\n    derivedClass.prototype = Object.create(baseClass.prototype);\n    derivedClass.prototype.constructor = derivedClass;\n  }\n  /**\n   * Does deep copy of an object\n   * @param {Object} destObj: Destination object\n   * @param {Object} srcObj:  Source object\n   */\n  static copyObject(srcObj)\n  {\n    return Object.assign({}, srcObj);\n    /*var it;\n\n    if(destObj)\n    {\n      if(!isObject(destObj) || destObj === null)\n      {\n        throw new Error(\"[Kt] 'copyObject' function: \" + \"a destination object '\" + destObj.toString() + \"' must have an object type\");\n      }\n\n      for(it in srcObj)\n      {\n        if(!isObject(srcObj[it]) || srcObj[it] === null)\n        {\n          destObj[it] = srcObj[it];\n        }\n        if(isObject(srcObj[it]) && srcObj[it] !== null && srcObj[it].length !== undefined)\n        {\n          destObj[it] = [];\n          copyArray(destObj[it], srcObj[it]);\n          continue;\n        }\n        if(isObject(srcObj[it]) && srcObj[it] !== null)\n        {\n          destObj[it] = {};\n          copyObject(destObj[it], srcObj[it]);\n        }\n      }\t\n    }\n    else\n    {\n      throw new Error(\"[Kt] 'copyObject' function: set a non empty parameter: [object]\");\n    }*/\n  }\n  /**\n   * Does deep copy of an array\n   * @param {Object} destObj: Destination array\n   * @param {Object} srcObj:  Source array\n   */\n  static copyArray(srcArr)\n  {\n    return Array.from(srcArr);\n    /*var it;\n\n    if(destArr)\n    {\n      if(!isObject(destArr) || destArr.length === undefined || destArr === null)\n      {\n        throw new Error(\"[Kt] 'copyArray' function: \" + \"a destination object '\" + destArr.toString() + \"' must have an array type\");\n      }\n\n      for(it in srcArr)\n      {\n        if(!isObject(srcArr[it]) || srcArr[it] === null)\n        {\n          destArr[it] = srcArr[it];\n        }\n        if(isObject(srcArr[it]) && srcArr[it] !== null && srcArr[it].length !== undefined)\n        {\n          destArr[it] = [];\n          copyArray(destArr[it], srcArr[it]);\n          continue;\n        }\n        if(isObject(srcArr[it]) && srcArr[it] !== null)\n        {\n          destArr[it] = {};\n          copyObject(destArr[it], srcArr[it]);\n        }\n      }\t\n    }\n    else\n    {\n      throw new Error(\"[Kt] 'copyArray' function: set a non empty parameter: [array]\");\n    }*/\n  }\n  /**\n   * Defines accessors to an object.\n   * @param {Object}   destObject     Destination object\n   * @param {String}   name           Function name\n   * @param {Function} setterFunction Setter function\n   * @param {Function} getterFunction Getter function\n   */\n  static accessor(destObject, name, setterFunction, getterFunction)\n  {\n    Object.defineProperty(destObject, name,\n    {\n      set: setterFunction,\n      get: getterFunction,\n      enumerable: true\n    });\n  }\n  /**\n   * Makes an array from input parameters\n   * @param {Array} srcParameters: Source parameters\n   * @return {Array} Output array of parameters\n   */\n  static makeParametersArray(srcParameters)\n  {\n    let outParameters;\n\n    if(Kernel.isArray(srcParameters))\n    {\n      outParameters = srcParameters;\n    }\n    else\n    {\n      outParameters = [];\n      outParameters.push(srcParameters);\n    }\n\n    return outParameters;\n  }\n  /**\n   *\n   */\n  static attachClass(element, classList)\n  {\n    let inClassList = Kernel.makeParametersArray(classList);\n\n    for(let i = 0; i < inClassList.length; ++i)\n    {\n      element.classList.add(inClassList[i]);\n    }\n  }\n  /**\n   * Tests a readiness to ES6 features using\n   * @return {Boolean} readiness\n   */\n  static isReadyToES6()\n  {\n    return (\n            !Kernel.isUndefined(Array.from)    &&\n            !Kernel.isUndefined(Object.assign) &&\n            !Kernel.isUndefined(window.Map)\n           );\n  }\n}"
+  },
+  {
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "Kernel",
+    "memberof": "nawi/core/tools/Kernel.js",
+    "longname": "nawi/core/tools/Kernel.js~Kernel",
+    "access": null,
+    "export": true,
+    "importPath": "./nawi/core/tools/Kernel.js",
+    "importStyle": "Kernel",
+    "description": "JavaScript language syntax sugar",
+    "lineNumber": 9,
+    "interface": false
+  },
+  {
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "nawi/core/tools/Kernel.js~Kernel",
+    "longname": "nawi/core/tools/Kernel.js~Kernel#constructor",
+    "access": null,
+    "description": "Kernel static non instantiable constructor",
+    "lineNumber": 14,
+    "params": [],
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "isBoolean",
+    "memberof": "nawi/core/tools/Kernel.js~Kernel",
+    "longname": "nawi/core/tools/Kernel.js~Kernel.isBoolean",
+    "access": null,
+    "description": "Tests an variable is being an JavaScript boolean type",
+    "lineNumber": 23,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Boolean} Is a variable a JavaScript boolean"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "fun:",
+        "description": "Testing boolean value"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Boolean"
+      ],
+      "spread": false,
+      "description": "Is a variable a JavaScript boolean"
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "isString",
+    "memberof": "nawi/core/tools/Kernel.js~Kernel",
+    "longname": "nawi/core/tools/Kernel.js~Kernel.isString",
+    "access": null,
+    "description": "Tests an variable is being an JavaScript string type",
+    "lineNumber": 32,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Boolean} Is a variable a JavaScript string"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "fun:",
+        "description": "Testing string value"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Boolean"
+      ],
+      "spread": false,
+      "description": "Is a variable a JavaScript string"
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "isNull",
+    "memberof": "nawi/core/tools/Kernel.js~Kernel",
+    "longname": "nawi/core/tools/Kernel.js~Kernel.isNull",
+    "access": null,
+    "description": "Tests an variable is being an JavaScript null type",
+    "lineNumber": 41,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Boolean} Is a variable a JavaScript null"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "fun:",
+        "description": "Testing null value"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Boolean"
+      ],
+      "spread": false,
+      "description": "Is a variable a JavaScript null"
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "isUndefined",
+    "memberof": "nawi/core/tools/Kernel.js~Kernel",
+    "longname": "nawi/core/tools/Kernel.js~Kernel.isUndefined",
+    "access": null,
+    "description": "Tests an variable is being an JavaScript undefined value.",
+    "lineNumber": 50,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Boolean} Is a variable a JavaScript undefined."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "undefinedValue",
+        "description": "Testing undefined value."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Boolean"
+      ],
+      "spread": false,
+      "description": "Is a variable a JavaScript undefined."
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "isFunction",
+    "memberof": "nawi/core/tools/Kernel.js~Kernel",
+    "longname": "nawi/core/tools/Kernel.js~Kernel.isFunction",
+    "access": null,
+    "description": "Tests an variable is being an JavaScript function type.",
+    "lineNumber": 59,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Boolean} Is a variable a JavaScript function."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Function"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "_function",
+        "description": "Testing function value."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Boolean"
+      ],
+      "spread": false,
+      "description": "Is a variable a JavaScript function."
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "isObject",
+    "memberof": "nawi/core/tools/Kernel.js~Kernel",
+    "longname": "nawi/core/tools/Kernel.js~Kernel.isObject",
+    "access": null,
+    "description": "Tests an variable is being an JavaScript object type",
+    "lineNumber": 68,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Boolean} Is a variable a JavaScript object"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "object:",
+        "description": "Testing object value"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Boolean"
+      ],
+      "spread": false,
+      "description": "Is a variable a JavaScript object"
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "isArray",
+    "memberof": "nawi/core/tools/Kernel.js~Kernel",
+    "longname": "nawi/core/tools/Kernel.js~Kernel.isArray",
+    "access": null,
+    "description": "Tests an variable is being an JavaScript array type",
+    "lineNumber": 77,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Boolean} Is a variable a JavaScript array"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "array:",
+        "description": "Testing object value"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Boolean"
+      ],
+      "spread": false,
+      "description": "Is a variable a JavaScript array"
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "isNumber",
+    "memberof": "nawi/core/tools/Kernel.js~Kernel",
+    "longname": "nawi/core/tools/Kernel.js~Kernel.isNumber",
+    "access": null,
+    "description": "Tests an variable is being an JavaScript number type",
+    "lineNumber": 86,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Boolean} Is a variable a JavaScript number"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "number:",
+        "description": "Testing number value"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Boolean"
+      ],
+      "spread": false,
+      "description": "Is a variable a JavaScript number"
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "invisible",
+    "memberof": "nawi/core/tools/Kernel.js~Kernel",
+    "longname": "nawi/core/tools/Kernel.js~Kernel.invisible",
+    "access": null,
+    "description": "Defines a invisibles object property (non-enumerable)",
+    "lineNumber": 96,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "object:",
+        "description": "Destination object"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "name:",
+        "description": "Name of destination property"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "value:",
+        "description": "Destination invisible value"
+      }
+    ],
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "hidden",
+    "memberof": "nawi/core/tools/Kernel.js~Kernel",
+    "longname": "nawi/core/tools/Kernel.js~Kernel.hidden",
+    "access": null,
+    "description": "Defines a hidden object property (readonly, non-enumerable)",
+    "lineNumber": 111,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "object:",
+        "description": "Destination object"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "name:",
+        "description": "Name of destination property"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "value:",
+        "description": "Destination hidden value"
+      }
+    ],
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "constant",
+    "memberof": "nawi/core/tools/Kernel.js~Kernel",
+    "longname": "nawi/core/tools/Kernel.js~Kernel.constant",
+    "access": null,
+    "description": "Defines a constant object property (readonly, enumerable)",
+    "lineNumber": 126,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "object:",
+        "description": "Destination object"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "name:",
+        "description": "Name of destination property"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "value:",
+        "description": "Destination constant value"
+      }
+    ],
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "extend",
+    "memberof": "nawi/core/tools/Kernel.js~Kernel",
+    "longname": "nawi/core/tools/Kernel.js~Kernel.extend",
+    "access": null,
+    "description": "Exteds class",
+    "lineNumber": 139,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Function"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "derivedClass:",
+        "description": "Derived class"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Function"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "baseClass:",
+        "description": "Parent class"
+      }
+    ],
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "copyObject",
+    "memberof": "nawi/core/tools/Kernel.js~Kernel",
+    "longname": "nawi/core/tools/Kernel.js~Kernel.copyObject",
+    "access": null,
+    "description": "Does deep copy of an object",
+    "lineNumber": 149,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "destObj:",
+        "description": "Destination object"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "srcObj:",
+        "description": "Source object"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "copyArray",
+    "memberof": "nawi/core/tools/Kernel.js~Kernel",
+    "longname": "nawi/core/tools/Kernel.js~Kernel.copyArray",
+    "access": null,
+    "description": "Does deep copy of an array",
+    "lineNumber": 190,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "destObj:",
+        "description": "Destination array"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "srcObj:",
+        "description": "Source array"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "accessor",
+    "memberof": "nawi/core/tools/Kernel.js~Kernel",
+    "longname": "nawi/core/tools/Kernel.js~Kernel.accessor",
+    "access": null,
+    "description": "Defines accessors to an object.",
+    "lineNumber": 233,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "destObject",
+        "description": "Destination object"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "name",
+        "description": "Function name"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Function"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "setterFunction",
+        "description": "Setter function"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Function"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "getterFunction",
+        "description": "Getter function"
+      }
+    ],
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "makeParametersArray",
+    "memberof": "nawi/core/tools/Kernel.js~Kernel",
+    "longname": "nawi/core/tools/Kernel.js~Kernel.makeParametersArray",
+    "access": null,
+    "description": "Makes an array from input parameters",
+    "lineNumber": 247,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Array"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "srcParameters:",
+        "description": "Source parameters"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Array"
+      ],
+      "spread": false,
+      "description": "Output array of parameters"
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "attachClass",
+    "memberof": "nawi/core/tools/Kernel.js~Kernel",
+    "longname": "nawi/core/tools/Kernel.js~Kernel.attachClass",
+    "access": null,
+    "description": "",
+    "lineNumber": 266,
+    "params": [
+      {
+        "name": "element",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "classList",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "isReadyToES6",
+    "memberof": "nawi/core/tools/Kernel.js~Kernel",
+    "longname": "nawi/core/tools/Kernel.js~Kernel.isReadyToES6",
+    "access": null,
+    "description": "Tests a readiness to ES6 features using",
+    "lineNumber": 279,
+    "params": [],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Boolean"
+      ],
+      "spread": false,
+      "description": "readiness"
+    },
+    "generator": false
+  },
+  {
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "nawi/core/tools/NMap.js",
+    "memberof": null,
+    "longname": "nawi/core/tools/NMap.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "content": "/**\n * <js/nawi/core/tools/NMap.js>\n * @file Indexed map container class\n */\n\nimport Kernel from \"./Kernel\";\n\nif(!Kernel.isReadyToES6())\n{\n  require(\"babel/polyfill\");\n}\n\n/**\n * Alternative to JavaScript Map container\n */\nexport default class NMap\n{\n  /**\n   * NMap constructor\n   * @param {[iterable]} array2d Initialization value\n   */\n  constructor(array2d)\n  {\n    try\n    {\n      this._baseMap = new Map(array2d);\n    }\n    catch(e)\n    {\n      throw new Error(\"[Nawi] 'KMap' constructor: \" + e.message);\n    }\n    this._baseArray = Array.from(this._baseMap);\n  }\n  /**\n   * Returns a boolean asserting whether a value has been associated to the key in the Map object or not\n   * @param   {Object} key - The key of the element to test for presence in the Map object\n   * @returns {Boolean} Returns true if an element with the specified key exists in the Map object; otherwise false\n   */\n  has(key)\n  {\n    return this._baseMap.has(key);\n  }\n  /**\n   * Returns a new Iterator object that contains the keys for each element in the Map object in insertion order\n   * @returns {Iterator} Iterator object\n   */\n  keys()\n  {\n    return this._baseMap.keys();\n  }\n  /**\n   * Returns a new Iterator object that contains the [key, value] pairs for each element in the Map object in insertion order\n   * @returns {Iterator} Iterator object\n   */\n  entries()\n  {\n    return this._baseMap.entries();\n  }\n  /**\n   * Returns a new Iterator object that contains the values for each element in the Map object in insertion order\n   * @returns {Iterator} Iterator object\n   */\n  values()\n  {\n    return this._baseMap.values();\n  }\n  /**\n   * Returns the number of elements in a Map object\n   * @returns {Map} Number of elements\n   */\n  get size()\n  {\n    return this._baseMap.size;\n  }\n  /**\n   * Returns a specified element from a Map object\n   * @param   {Object} key - The key of the element to return from the Map object\n   * @returns {Object} Returns the element associated with the specified key or undefined if the key can't be found in the Map object\n   */\n  get(key)\n  {\n    return this._baseMap.get(key);\n  }\n  /**\n   * Adds a new element with a specified key and value to a Map object\n   * @param {Object} key   - The key of the element to add to the Map object\n   * @param {Object} value - The value of the element to add to the Map object\n   * @return {Map} The Map object                      \n   */\n  set(key, value)\n  {\n    this._baseMap.set(key, value);\n    this._baseArray = Array.from(this._baseMap);\n  }\n  /**\n   * Removes the specified element from a Map object\n   * @param {Object} key - The key of the element to remove from the Map object\n   * @return {Boolean} Returns true if an element in the Map object has been removed successfully\n   */\n  delete(key)\n  {\n    let ret         = this._baseMap.delete(key);\n    this._baseArray = Array.from(this._baseMap);\n    \n    return ret;\n  }\n  /**\n   * Removes all elements from a Map object\n   */\n  clear()\n  {\n    this._baseMap.clear();\n    this._baseArray = [];\n  }\n  lastValue()\n  {\n    return this._baseMap.get(this._baseArray[this._baseMap.size - 1][0]);\n  }\n  firstValue()\n  {\n    return this._baseMap.get(this._baseArray[0][0]);\n  }\n  lastKey()\n  {\n    return this._baseArray[this._baseMap.size - 1][0];\n  }\n  firstKey()\n  {\n    return this._baseArray[0][0];\n  }\n  indexedValue(index)\n  {\n    if(Kernel.isNumber(index))\n    {\n      if(index < this._baseMap.size)\n      {\n        return this._baseArray[index][1];\n      }\n      else\n      {\n        throw new Error(\"[Nawi] 'KMap' 'indexedValue' method: container length excessing\");\n      }\n    }\n    else\n    {\n      throw new Error(\"[Nawi] 'KMap' 'indexedValue' method: set a valid parameters(index:number)\");\n    }\n  }\n  indexedKey(index)\n  {\n    if(Kernel.isNumber(index))\n    {\n      if(index < this._baseMap.size)\n      {\n        return this._baseArray[index][0];\n      }\n      else\n      {\n        throw new Error(\"[Nawi] 'KMap' 'indexedKey' method: container length excessing\");\n      }\n    }\n    else\n    {\n      throw new Error(\"[Nawi] 'KMap' 'indexedKey' method: set a valid parameters(index:number)\");\n    }\n  }\n  /**\n   * Executes a provided function once per each key/value pair in the Map object, in insertion order\n   * @param {function(value: Object, key: Object, traversed: Map)} callback - Function to execute for each element\n   */\n  forEach(callback)\n  {\n    this._baseMap.forEach(callback);\n  }\n  /**\n   * Returns the primitive value of NMap type\n   * @returns {Map} Base Map object\n   */\n  valueOf()\n  {\n    return this._baseMap;\n  }\n  /**\n   * Returns the base Map object in order to use NMap container in a for..of cycle\n   * @returns {Map} Base Map object\n   */\n  get iterable()\n  {\n    return this._baseMap;\n  }\n}"
+  },
+  {
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "NMap",
+    "memberof": "nawi/core/tools/NMap.js",
+    "longname": "nawi/core/tools/NMap.js~NMap",
+    "access": null,
+    "export": true,
+    "importPath": "./nawi/core/tools/NMap.js",
+    "importStyle": "NMap",
+    "description": "Alternative to JavaScript Map container",
+    "lineNumber": 16,
+    "interface": false
+  },
+  {
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#constructor",
+    "access": null,
+    "description": "NMap constructor",
+    "lineNumber": 22,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "[iterable]"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "array2d",
+        "description": "Initialization value"
+      }
+    ],
+    "generator": false
+  },
+  {
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "_baseMap",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#_baseMap",
+    "access": null,
+    "description": null,
+    "lineNumber": 26,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "_baseArray",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#_baseArray",
+    "access": null,
+    "description": null,
+    "lineNumber": 32,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "has",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#has",
+    "access": null,
+    "description": "Returns a boolean asserting whether a value has been associated to the key in the Map object or not",
+    "lineNumber": 39,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Boolean} Returns true if an element with the specified key exists in the Map object; otherwise false"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "key",
+        "description": "The key of the element to test for presence in the Map object"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Boolean"
+      ],
+      "spread": false,
+      "description": "Returns true if an element with the specified key exists in the Map object; otherwise false"
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "keys",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#keys",
+    "access": null,
+    "description": "Returns a new Iterator object that contains the keys for each element in the Map object in insertion order",
+    "lineNumber": 47,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Iterator} Iterator object"
+      }
+    ],
+    "params": [],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Iterator"
+      ],
+      "spread": false,
+      "description": "Iterator object"
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "entries",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#entries",
+    "access": null,
+    "description": "Returns a new Iterator object that contains the [key, value] pairs for each element in the Map object in insertion order",
+    "lineNumber": 55,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Iterator} Iterator object"
+      }
+    ],
+    "params": [],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Iterator"
+      ],
+      "spread": false,
+      "description": "Iterator object"
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "values",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#values",
+    "access": null,
+    "description": "Returns a new Iterator object that contains the values for each element in the Map object in insertion order",
+    "lineNumber": 63,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Iterator} Iterator object"
+      }
+    ],
+    "params": [],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Iterator"
+      ],
+      "spread": false,
+      "description": "Iterator object"
+    },
+    "generator": false
+  },
+  {
+    "kind": "get",
+    "static": false,
+    "variation": null,
+    "name": "size",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#size",
+    "access": null,
+    "description": "Returns the number of elements in a Map object",
+    "lineNumber": 71,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Map} Number of elements"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Map"
+      ],
+      "spread": false,
+      "description": "Number of elements"
+    },
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "get",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#get",
+    "access": null,
+    "description": "Returns a specified element from a Map object",
+    "lineNumber": 80,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Object} Returns the element associated with the specified key or undefined if the key can't be found in the Map object"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "key",
+        "description": "The key of the element to return from the Map object"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": "Returns the element associated with the specified key or undefined if the key can't be found in the Map object"
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "set",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#set",
+    "access": null,
+    "description": "Adds a new element with a specified key and value to a Map object",
+    "lineNumber": 90,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "key",
+        "description": "The key of the element to add to the Map object"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "value",
+        "description": "The value of the element to add to the Map object"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Map"
+      ],
+      "spread": false,
+      "description": "The Map object"
+    },
+    "generator": false
+  },
+  {
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "_baseArray",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#_baseArray",
+    "access": null,
+    "description": null,
+    "lineNumber": 93,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "delete",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#delete",
+    "access": null,
+    "description": "Removes the specified element from a Map object",
+    "lineNumber": 100,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "key",
+        "description": "The key of the element to remove from the Map object"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Boolean"
+      ],
+      "spread": false,
+      "description": "Returns true if an element in the Map object has been removed successfully"
+    },
+    "generator": false
+  },
+  {
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "_baseArray",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#_baseArray",
+    "access": null,
+    "description": null,
+    "lineNumber": 103,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "clear",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#clear",
+    "access": null,
+    "description": "Removes all elements from a Map object",
+    "lineNumber": 110,
+    "params": [],
+    "generator": false
+  },
+  {
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "_baseArray",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#_baseArray",
+    "access": null,
+    "description": null,
+    "lineNumber": 113,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "lastValue",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#lastValue",
+    "access": null,
+    "description": null,
+    "lineNumber": 115,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "firstValue",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#firstValue",
+    "access": null,
+    "description": null,
+    "lineNumber": 119,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "lastKey",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#lastKey",
+    "access": null,
+    "description": null,
+    "lineNumber": 123,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "firstKey",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#firstKey",
+    "access": null,
+    "description": null,
+    "lineNumber": 127,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "indexedValue",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#indexedValue",
+    "access": null,
+    "description": null,
+    "lineNumber": 131,
+    "undocument": true,
+    "params": [
+      {
+        "name": "index",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "indexedKey",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#indexedKey",
+    "access": null,
+    "description": null,
+    "lineNumber": 149,
+    "undocument": true,
+    "params": [
+      {
+        "name": "index",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "forEach",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#forEach",
+    "access": null,
+    "description": "Executes a provided function once per each key/value pair in the Map object, in insertion order",
+    "lineNumber": 171,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "function(value: Object, key: Object, traversed: Map)"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "callback",
+        "description": "Function to execute for each element"
+      }
+    ],
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "valueOf",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#valueOf",
+    "access": null,
+    "description": "Returns the primitive value of NMap type",
+    "lineNumber": 179,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Map} Base Map object"
+      }
+    ],
+    "params": [],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Map"
+      ],
+      "spread": false,
+      "description": "Base Map object"
+    },
+    "generator": false
+  },
+  {
+    "kind": "get",
+    "static": false,
+    "variation": null,
+    "name": "iterable",
+    "memberof": "nawi/core/tools/NMap.js~NMap",
+    "longname": "nawi/core/tools/NMap.js~NMap#iterable",
+    "access": null,
+    "description": "Returns the base Map object in order to use NMap container in a for..of cycle",
+    "lineNumber": 187,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Map} Base Map object"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Map"
+      ],
+      "spread": false,
+      "description": "Base Map object"
+    },
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "nawi/libnawi.js",
+    "memberof": null,
+    "longname": "nawi/libnawi.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "content": "/**\n * <src/nawi/libnawi.js>\n * @file Nawi ui library.\n */\n\nimport TabView from \"./widgets/view/tabview/TabView\";\nimport HLayout from \"./widgets/layout/hlayout/HLayout\";\n\nimport NMap    from \"./core/tools/NMap\";\nimport Kernel  from \"./core/tools/Kernel\";\n\nKernel.NMap = NMap;\n\nvar libnawi = \n{\n  widgets:\n  {\n    view:\n    {\n      TabView\n    },\n    layout:\n    {\n      HLayout\n    }\n    //applyGroup: tools.applyGroup,\n    //bind      : binder\n  },\n  kernel: Kernel\n};\n\nexport default libnawi;"
+  },
+  {
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "libnawi",
+    "memberof": "nawi/libnawi.js",
+    "longname": "nawi/libnawi.js~libnawi",
+    "access": null,
+    "export": false,
+    "importPath": "./nawi/libnawi.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 14,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "nawi/widgets/layout/hlayout/HLayout.js",
+    "memberof": null,
+    "longname": "nawi/widgets/layout/hlayout/HLayout.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "content": "/**\n * <./../nawi/widgets/layout/hlayout/HLayout.js>\n * @file Horizontal layout widget static class.\n */\n\nimport HLayoutProto from \"./HLayoutProto\";\nimport Widget       from \"./../../widget/Widget\";\n\nvar HLayoutConstructor = document.registerElement(\"nawi-hlayout\", HLayoutProto);\n\n/**\n * HLayout widget creator\n */\nexport default class HLayout\n{\n  /**\n   * Not invokable static constructor\n   */\n  constructor()\n  {\n    throw new Error(\"[Nawi] 'HLayout' class: cannot create an instance of a static class\");\n  }\n  /**\n   * Creates HLayout widget\n   * @public\n   * @param   {String}       id=null         - Widget id\n   * @param   {HTMLElement}  parentNode=null - Parent node\n   * @returns {HLayoutProto} New HLayout widget node\n   */\n  static create(id = null, parentNode = null)\n  {\n    return Widget.factory(HLayoutConstructor, id, parentNode);\n  }\n}"
+  },
+  {
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "HLayoutConstructor",
+    "memberof": "nawi/widgets/layout/hlayout/HLayout.js",
+    "longname": "nawi/widgets/layout/hlayout/HLayout.js~HLayoutConstructor",
+    "access": null,
+    "export": false,
+    "importPath": "./nawi/widgets/layout/hlayout/HLayout.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "HLayout",
+    "memberof": "nawi/widgets/layout/hlayout/HLayout.js",
+    "longname": "nawi/widgets/layout/hlayout/HLayout.js~HLayout",
+    "access": null,
+    "export": true,
+    "importPath": "./nawi/widgets/layout/hlayout/HLayout.js",
+    "importStyle": "HLayout",
+    "description": "HLayout widget creator",
+    "lineNumber": 14,
+    "interface": false
+  },
+  {
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "nawi/widgets/layout/hlayout/HLayout.js~HLayout",
+    "longname": "nawi/widgets/layout/hlayout/HLayout.js~HLayout#constructor",
+    "access": null,
+    "description": "Not invokable static constructor",
+    "lineNumber": 19,
+    "params": [],
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "create",
+    "memberof": "nawi/widgets/layout/hlayout/HLayout.js~HLayout",
+    "longname": "nawi/widgets/layout/hlayout/HLayout.js~HLayout.create",
+    "access": "public",
+    "description": "Creates HLayout widget",
+    "lineNumber": 30,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{HLayoutProto} New HLayout widget node"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "defaultValue": "null",
+        "defaultRaw": null,
+        "name": "id",
+        "description": "Widget id"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "HTMLElement"
+        ],
+        "spread": false,
+        "optional": false,
+        "defaultValue": "null",
+        "defaultRaw": null,
+        "name": "parentNode",
+        "description": "Parent node"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "HLayoutProto"
+      ],
+      "spread": false,
+      "description": "New HLayout widget node"
+    },
+    "generator": false
+  },
+  {
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "nawi/widgets/layout/hlayout/HLayoutProto.js",
+    "memberof": null,
+    "longname": "nawi/widgets/layout/hlayout/HLayoutProto.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 8,
+    "content": "/**\n * <./../nawi/widgets/layout/HLayoutProto.js>\n * @file HLayoutProto class.\n */\n\n//import Kernel from \"./../../../core/tools/Kernel\";\n\nimport WidgetProto  from \"./../../widget/WidgetProto\";\nimport HLayoutStyle from \"./HLayoutStyle\";\n/**\n * HLayout widget prototype functionality\n * @extends {WidgetProto}\n */\nexport default class HLayoutProto extends WidgetProto\n{\n  /**\n   * Fires when an instance of the element is created.\n   */\n  createdCallback()\n  {\n    this.style.display       = \"flex\";\n    this.style.flexDirection = \"row\" ;\n    //this.style.alignItems    = \"flex-start\";\n    \n    /**\n     * @type {HLayoutStyle}\n     */\n    this.xstyle              = new HLayoutStyle(this);\n    //this.xstyle.subStyle     = new HLayoutSubStyle(this);\n  }\n  /**\n   * Fires when an instance was inserted into the document.\n   */\n  //attachedCallback() {}\n  /**\n   * Fires when an instance was removed from the document.\n   */\n  //detachedCallback() {}\n  /**\n   * Fires when an attribute was added, removed, or updated.\n   * @param {Object} attr   Attribute\n   * @param {Object} oldVal Old value\n   * @param {Object} newVal New value\n   */\n  //attributeChangedCallback(attr, oldVal, newVal) {}\n}"
+  },
+  {
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "HLayoutProto",
+    "memberof": "nawi/widgets/layout/hlayout/HLayoutProto.js",
+    "longname": "nawi/widgets/layout/hlayout/HLayoutProto.js~HLayoutProto",
+    "access": null,
+    "export": true,
+    "importPath": "./nawi/widgets/layout/hlayout/HLayoutProto.js",
+    "importStyle": "HLayoutProto",
+    "description": "HLayout widget prototype functionality",
+    "lineNumber": 14,
+    "interface": false,
+    "extends": [
+      "WidgetProto"
+    ]
+  },
+  {
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "createdCallback",
+    "memberof": "nawi/widgets/layout/hlayout/HLayoutProto.js~HLayoutProto",
+    "longname": "nawi/widgets/layout/hlayout/HLayoutProto.js~HLayoutProto#createdCallback",
+    "access": null,
+    "description": "Fires when an instance of the element is created.",
+    "lineNumber": 19,
+    "params": [],
+    "generator": false
+  },
+  {
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "xstyle",
+    "memberof": "nawi/widgets/layout/hlayout/HLayoutProto.js~HLayoutProto",
+    "longname": "nawi/widgets/layout/hlayout/HLayoutProto.js~HLayoutProto#xstyle",
+    "access": null,
+    "description": null,
+    "lineNumber": 28,
+    "type": {
+      "nullable": null,
+      "types": [
+        "HLayoutStyle"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "nawi/widgets/layout/hlayout/HLayoutStyle.js",
+    "memberof": null,
+    "longname": "nawi/widgets/layout/hlayout/HLayoutStyle.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 11,
+    "content": "/**\n * <src/nawi/widgets/layout/hlayout/HLayoutStyle.js>\n * @file HLayoutStyle class.\n */\n\n//import Kernel from \"./../../../core/tools/Kernel\";\n\n/**\n * HLayout widget style declaration\n */\nexport default class HLayoutStyle\n{\n\n}"
+  },
+  {
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "HLayoutStyle",
+    "memberof": "nawi/widgets/layout/hlayout/HLayoutStyle.js",
+    "longname": "nawi/widgets/layout/hlayout/HLayoutStyle.js~HLayoutStyle",
+    "access": null,
+    "export": true,
+    "importPath": "./nawi/widgets/layout/hlayout/HLayoutStyle.js",
+    "importStyle": "HLayoutStyle",
+    "description": "HLayout widget style declaration",
+    "lineNumber": 11,
+    "interface": false
+  },
+  {
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "nawi/widgets/view/tabview/TabView.js",
+    "memberof": null,
+    "longname": "nawi/widgets/view/tabview/TabView.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "content": "/**\n * <./../nawi/widgets/view/tabview/TabView.js>\n * @file TabView widget static class.\n */\n\nimport TabViewProto from \"./TabViewProto\";\nimport Widget       from \"./../../widget/Widget\";\n\nlet TabViewConstructor = document.registerElement(\"nawi-tabview\", TabViewProto);\n\n/**\n * TabView widget creator.\n */\nexport default class TabView\n{\n  /**\n   * Not invokable static constructor.\n   */\n  constructor()\n  {\n    throw new Error(\"[Nawi] 'TabView' class: cannot create an instance of a static class\");\n  }\n  /**\n   * Creates TabView widget.\n   * @public\n   * @param   {String}       id=null         - Widget id.\n   * @param   {HTMLElement}  parentNode=null - Parent node.\n   * @returns {TabViewProto} New TabView widget node.\n   */\n  static create(id = null, parentNode = null)\n  {\n    return Widget.factory(TabViewConstructor, id, parentNode);\n  }\n}"
+  },
+  {
+    "kind": "variable",
+    "static": true,
+    "variation": null,
+    "name": "TabViewConstructor",
+    "memberof": "nawi/widgets/view/tabview/TabView.js",
+    "longname": "nawi/widgets/view/tabview/TabView.js~TabViewConstructor",
+    "access": null,
+    "export": false,
+    "importPath": "./nawi/widgets/view/tabview/TabView.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "TabView",
+    "memberof": "nawi/widgets/view/tabview/TabView.js",
+    "longname": "nawi/widgets/view/tabview/TabView.js~TabView",
+    "access": null,
+    "export": true,
+    "importPath": "./nawi/widgets/view/tabview/TabView.js",
+    "importStyle": "TabView",
+    "description": "TabView widget creator.",
+    "lineNumber": 14,
+    "interface": false
+  },
+  {
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "nawi/widgets/view/tabview/TabView.js~TabView",
+    "longname": "nawi/widgets/view/tabview/TabView.js~TabView#constructor",
+    "access": null,
+    "description": "Not invokable static constructor.",
+    "lineNumber": 19,
+    "params": [],
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "create",
+    "memberof": "nawi/widgets/view/tabview/TabView.js~TabView",
+    "longname": "nawi/widgets/view/tabview/TabView.js~TabView.create",
+    "access": "public",
+    "description": "Creates TabView widget.",
+    "lineNumber": 30,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{TabViewProto} New TabView widget node."
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "defaultValue": "null",
+        "defaultRaw": null,
+        "name": "id",
+        "description": "Widget id."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "HTMLElement"
+        ],
+        "spread": false,
+        "optional": false,
+        "defaultValue": "null",
+        "defaultRaw": null,
+        "name": "parentNode",
+        "description": "Parent node."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "TabViewProto"
+      ],
+      "spread": false,
+      "description": "New TabView widget node."
+    },
+    "generator": false
+  },
+  {
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "nawi/widgets/view/tabview/TabViewProto.js",
+    "memberof": null,
+    "longname": "nawi/widgets/view/tabview/TabViewProto.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "content": "/**\n * <./../nawi/widgets/widget/TabViewProto.js>\n * @file TabViewProto class.\n */\n\nimport WidgetProto  from \"./../../widget/WidgetProto\";\nimport TabViewStyle from \"./TabViewStyle\";\n/**\n * TabView widget prototype functionality\n * @extends {WidgetProto}\n */\nexport default class TabViewProto extends WidgetProto\n{\n  /**\n   * Fires when an instance of the element is created.\n   */\n  createdCallback()\n  {\n    this.style.display       = \"flex\";\n    this.style.flexDirection = \"row\" ;\n    //this.style.alignItems    = \"flex-start\";\n    \n    /**\n     * @type {TabViewStyle}\n     */\n    this.xstyle              = new TabViewStyle(this);\n    //this.xstyle.subStyle     = new HLayoutSubStyle(this);\n  }\n  /**\n   * Fires when an instance was inserted into the document.\n   */\n  //attachedCallback() {}\n  /**\n   * Fires when an instance was removed from the document.\n   */\n  //detachedCallback() {}\n  /**\n   * Fires when an attribute was added, removed, or updated.\n   * @param {Object} attr   Attribute\n   * @param {Object} oldVal Old value\n   * @param {Object} newVal New value\n   */\n  //attributeChangedCallback(attr, oldVal, newVal) {}\n}"
+  },
+  {
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "TabViewProto",
+    "memberof": "nawi/widgets/view/tabview/TabViewProto.js",
+    "longname": "nawi/widgets/view/tabview/TabViewProto.js~TabViewProto",
+    "access": null,
+    "export": true,
+    "importPath": "./nawi/widgets/view/tabview/TabViewProto.js",
+    "importStyle": "TabViewProto",
+    "description": "TabView widget prototype functionality",
+    "lineNumber": 12,
+    "interface": false,
+    "extends": [
+      "WidgetProto"
+    ]
+  },
+  {
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "createdCallback",
+    "memberof": "nawi/widgets/view/tabview/TabViewProto.js~TabViewProto",
+    "longname": "nawi/widgets/view/tabview/TabViewProto.js~TabViewProto#createdCallback",
+    "access": null,
+    "description": "Fires when an instance of the element is created.",
+    "lineNumber": 17,
+    "params": [],
+    "generator": false
+  },
+  {
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "xstyle",
+    "memberof": "nawi/widgets/view/tabview/TabViewProto.js~TabViewProto",
+    "longname": "nawi/widgets/view/tabview/TabViewProto.js~TabViewProto#xstyle",
+    "access": null,
+    "description": null,
+    "lineNumber": 26,
+    "type": {
+      "nullable": null,
+      "types": [
+        "TabViewStyle"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "nawi/widgets/view/tabview/TabViewStyle.js",
+    "memberof": null,
+    "longname": "nawi/widgets/view/tabview/TabViewStyle.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 7,
+    "content": "/**\n * <src/nawi/widgets/widget/TabViewStyle.js>\n * @file TabViewStyle class.\n */\n\n//import Kernel from \"./../../../core/tools/Kernel\";\nimport WidgetStyle from \"./../../widget/WidgetStyle\";\n/**\n * TabView widget style declaration\n * @extends {WidgetStyle}\n */\nexport default class TabViewStyle extends WidgetStyle\n{\n  /**\n   * TabViewStyle constructor\n   * @param {TabViewProto} parentNode - Parent node\n   */\n  constructor(parentNode)\n  {\n    super(parentNode);\n  }\n}"
+  },
+  {
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "TabViewStyle",
+    "memberof": "nawi/widgets/view/tabview/TabViewStyle.js",
+    "longname": "nawi/widgets/view/tabview/TabViewStyle.js~TabViewStyle",
+    "access": null,
+    "export": true,
+    "importPath": "./nawi/widgets/view/tabview/TabViewStyle.js",
+    "importStyle": "TabViewStyle",
+    "description": "TabView widget style declaration",
+    "lineNumber": 12,
+    "interface": false,
+    "extends": [
+      "WidgetStyle"
+    ]
+  },
+  {
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "nawi/widgets/view/tabview/TabViewStyle.js~TabViewStyle",
+    "longname": "nawi/widgets/view/tabview/TabViewStyle.js~TabViewStyle#constructor",
+    "access": null,
+    "description": "TabViewStyle constructor",
+    "lineNumber": 18,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "TabViewProto"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "parentNode",
+        "description": "Parent node"
+      }
+    ],
+    "generator": false
+  },
+  {
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "nawi/widgets/widget/StyleContainer.js",
+    "memberof": null,
+    "longname": "nawi/widgets/widget/StyleContainer.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "content": "/**\n * <./../nawi/widgets/widget/StyleContatainer.js>\n * @file Style declaration contatiner class.\n */\n\nimport { Kernel as std } from \"./../core/tools/Kernel\";\nimport NMap              from \"./../core/tools/NMap\";\n//import {resizeEvent} from \"./ResizeEvent\";\n\n/**\n * Style declaration properties container \n */\nexport default class StyleContainer\n{\n  /**\n   * StyleContainer constructor\n   * @param {String[]} propertyList=null    - List of style declaration properties\n   * @param {Boolean}  preventDefault=false - Default initialization preventing flag\n   */\n  constructor(propertyList = null, preventDefault = false)\n  {\n    let defaultProperties = \n    {\n      position: \"static\",\n      width   : \"auto\"  ,\n      height  : \"auto\"  ,\n      title   : \"\"      ,\n      group   : null\n    };\n    \n    if(!preventDefault)\n    {\n      this.generateContainers(defaultProperties);\n    }\n    \n    if(!std.isNull(propertyList))\n    {\n      this.generateContainers(propertyList);\n    }\n    \n    //this._groupParsing = false;\n    \n    //this._resizeList = resizeEvent.getEventList();\n  }\n  /**\n   * Generates a widget declaration container\n   * @param {Object} propertyList: Declaration property list\n   */\n  generateContainers(propertyList)\n  {\n    for(let _prop in propertyList)\n    {\n      if(!std.isNull(propertyList[_prop]))\n      {\n        this[_prop] = new NMap([[\"default\", propertyList[_prop]]]);\n        this[_prop].set(\"current\", propertyList[_prop]);\n      }\n      else\n      {\n        this[_prop] = new NMap();\n      }\n    }\n  }\n}"
+  },
+  {
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "StyleContainer",
+    "memberof": "nawi/widgets/widget/StyleContainer.js",
+    "longname": "nawi/widgets/widget/StyleContainer.js~StyleContainer",
+    "access": null,
+    "export": true,
+    "importPath": "./nawi/widgets/widget/StyleContainer.js",
+    "importStyle": "StyleContainer",
+    "description": "Style declaration properties container",
+    "lineNumber": 13,
+    "interface": false
+  },
+  {
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "nawi/widgets/widget/StyleContainer.js~StyleContainer",
+    "longname": "nawi/widgets/widget/StyleContainer.js~StyleContainer#constructor",
+    "access": null,
+    "description": "StyleContainer constructor",
+    "lineNumber": 20,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String[]"
+        ],
+        "spread": false,
+        "optional": false,
+        "defaultValue": "null",
+        "defaultRaw": null,
+        "name": "propertyList",
+        "description": "List of style declaration properties"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Boolean"
+        ],
+        "spread": false,
+        "optional": false,
+        "defaultValue": "false",
+        "defaultRaw": false,
+        "name": "preventDefault",
+        "description": "Default initialization preventing flag"
+      }
+    ],
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": false,
+    "variation": null,
+    "name": "generateContainers",
+    "memberof": "nawi/widgets/widget/StyleContainer.js~StyleContainer",
+    "longname": "nawi/widgets/widget/StyleContainer.js~StyleContainer#generateContainers",
+    "access": null,
+    "description": "Generates a widget declaration container",
+    "lineNumber": 49,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "propertyList:",
+        "description": "Declaration property list"
+      }
+    ],
+    "generator": false
+  },
+  {
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "_prop",
+    "memberof": "nawi/widgets/widget/StyleContainer.js~StyleContainer",
+    "longname": "nawi/widgets/widget/StyleContainer.js~StyleContainer#_prop",
+    "access": null,
+    "description": null,
+    "lineNumber": 55,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "_prop",
+    "memberof": "nawi/widgets/widget/StyleContainer.js~StyleContainer",
+    "longname": "nawi/widgets/widget/StyleContainer.js~StyleContainer#_prop",
+    "access": null,
+    "description": null,
+    "lineNumber": 60,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "nawi/widgets/widget/Widget.js",
+    "memberof": null,
+    "longname": "nawi/widgets/widget/Widget.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 6,
+    "content": "/**\n * <./../nawi/core/widget/Widget.js>\n * @file Widget static class\n */\n\nimport { Kernel as std } from \"./../../core/tools/Kernel\";\n\n/**\n * Base widget logic\n */\nexport default class Widget\n{\n  /**\n   * Widget static non instantiable constructor\n   */\n  constructor()\n  {\n    throw new Error(\"[Nawi] 'Widget' class: cannot create an instance of a static class\");\n  }\n  /**\n   * Creates widget from an input widget constructor\n   * @param {WidgetProto} WidgetConstructor Widget constructor\n   * @param {String}      id                Widget id\n   * @param {HTMLElement} parentNode        Parent node\n   */\n  static factory(WidgetConstructor, id, parentNode)\n  {\n    var newWidget = new WidgetConstructor();\n\n    if(!std.isNull(id))\n    {\n      newWidget.setAttribute(\"id\", id);\n    }\n    if(!std.isNull(parentNode))\n    {\n      parentNode.appendChild(newWidget);\n    }\n\n    return newWidget;\n  }\n}\n\n//throw new Error(\"[Nawi] 'Widget' class: cannot create an instance of a static class\");"
+  },
+  {
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "Widget",
+    "memberof": "nawi/widgets/widget/Widget.js",
+    "longname": "nawi/widgets/widget/Widget.js~Widget",
+    "access": null,
+    "export": true,
+    "importPath": "./nawi/widgets/widget/Widget.js",
+    "importStyle": "Widget",
+    "description": "Base widget logic",
+    "lineNumber": 11,
+    "interface": false
+  },
+  {
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "nawi/widgets/widget/Widget.js~Widget",
+    "longname": "nawi/widgets/widget/Widget.js~Widget#constructor",
+    "access": null,
+    "description": "Widget static non instantiable constructor",
+    "lineNumber": 16,
+    "params": [],
+    "generator": false
+  },
+  {
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "factory",
+    "memberof": "nawi/widgets/widget/Widget.js~Widget",
+    "longname": "nawi/widgets/widget/Widget.js~Widget.factory",
+    "access": null,
+    "description": "Creates widget from an input widget constructor",
+    "lineNumber": 26,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "WidgetProto"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "WidgetConstructor",
+        "description": "Widget constructor"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "id",
+        "description": "Widget id"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "HTMLElement"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "parentNode",
+        "description": "Parent node"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "generator": false
+  },
+  {
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "nawi/widgets/widget/WidgetProto.js",
+    "memberof": null,
+    "longname": "nawi/widgets/widget/WidgetProto.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 10,
+    "content": "/**\n * <src/nawi/widgets/widget/WidgetProto.js>\n * @file WidgetProto class.\n */\n\n/**\n * Base widget prototype functionality\n * @extends {HTMLElement}\n */\nexport default class WidgetProto extends HTMLElement\n{\n\n}"
+  },
+  {
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "WidgetProto",
+    "memberof": "nawi/widgets/widget/WidgetProto.js",
+    "longname": "nawi/widgets/widget/WidgetProto.js~WidgetProto",
+    "access": null,
+    "export": true,
+    "importPath": "./nawi/widgets/widget/WidgetProto.js",
+    "importStyle": "WidgetProto",
+    "description": "Base widget prototype functionality",
+    "lineNumber": 10,
+    "interface": false,
+    "extends": [
+      "HTMLElement"
+    ]
+  },
+  {
+    "kind": "file",
+    "static": true,
+    "variation": null,
+    "name": "nawi/widgets/widget/WidgetStyle.js",
+    "memberof": null,
+    "longname": "nawi/widgets/widget/WidgetStyle.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 11,
+    "content": "/**\n * <src/nawi/widgets/widget/WidgetStyle.js>\n * @file WidgetStyle class.\n */\n\n//import Kernel from \"./../../core/tools/Kernel\";\n\n/**\n * Base widget style declaration\n */\nexport default class WidgetStyle\n{\n  /**\n   * WidgetStyle constructor\n   * @param {WidgetProto} parentNode - Parent node\n   */\n  constructor(parentNode)\n  {\n    this._root   = parentNode; // root node\n    //this._widget = parentNode; // main widget node\n  }\n}"
+  },
+  {
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "WidgetStyle",
+    "memberof": "nawi/widgets/widget/WidgetStyle.js",
+    "longname": "nawi/widgets/widget/WidgetStyle.js~WidgetStyle",
+    "access": null,
+    "export": true,
+    "importPath": "./nawi/widgets/widget/WidgetStyle.js",
+    "importStyle": "WidgetStyle",
+    "description": "Base widget style declaration",
+    "lineNumber": 11,
+    "interface": false
+  },
+  {
+    "kind": "constructor",
+    "static": false,
+    "variation": null,
+    "name": "constructor",
+    "memberof": "nawi/widgets/widget/WidgetStyle.js~WidgetStyle",
+    "longname": "nawi/widgets/widget/WidgetStyle.js~WidgetStyle#constructor",
+    "access": null,
+    "description": "WidgetStyle constructor",
+    "lineNumber": 17,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "WidgetProto"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "parentNode",
+        "description": "Parent node"
+      }
+    ],
+    "generator": false
+  },
+  {
+    "kind": "member",
+    "static": false,
+    "variation": null,
+    "name": "_root",
+    "memberof": "nawi/widgets/widget/WidgetStyle.js~WidgetStyle",
+    "longname": "nawi/widgets/widget/WidgetStyle.js~WidgetStyle#_root",
+    "access": null,
+    "description": null,
+    "lineNumber": 19,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Infinity",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Infinity",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "NaN",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~NaN",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "undefined",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~undefined",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "null",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~null",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Object",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~object",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Function",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~function",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Boolean",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~boolean",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Symbol",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Symbol",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Error",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Error",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "EvalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~EvalError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "InternalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~InternalError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "RangeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~RangeError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "ReferenceError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~ReferenceError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "SyntaxError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~SyntaxError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "TypeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~TypeError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "URIError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~URIError",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Number",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~number",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Date",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Date",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "String",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~String",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "string",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~string",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "RegExp",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~RegExp",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Int8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int8Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Uint8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint8Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Uint8ClampedArray",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint8ClampedArray",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Int16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int16Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Uint16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint16Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Int32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Int32Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Uint32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Uint32Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Float32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Float32Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Float64Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Float64Array",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Map",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Map",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Set",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Set",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "WeakMap",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~WeakMap",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "WeakSet",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~WeakSet",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "ArrayBuffer",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~ArrayBuffer",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "DataView",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~DataView",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "JSON",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~JSON",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Promise",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Promise",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Generator",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Generator",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "GeneratorFunction",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~GeneratorFunction",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Reflect",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Reflect",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Proxy",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+    "memberof": "BuiltinExternal/ECMAScriptExternal.js",
+    "longname": "BuiltinExternal/ECMAScriptExternal.js~Proxy",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "CanvasRenderingContext2D",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~CanvasRenderingContext2D",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "DocumentFragment",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~DocumentFragment",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Element",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Element",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~Element",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Event",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Event",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~Event",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "Node",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Node",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~Node",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "NodeList",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/NodeList",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~NodeList",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  },
+  {
+    "kind": "external",
+    "static": true,
+    "variation": null,
+    "name": "XMLHttpRequest",
+    "externalLink": "https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest",
+    "memberof": "BuiltinExternal/WebAPIExternal.js",
+    "longname": "BuiltinExternal/WebAPIExternal.js~XMLHttpRequest",
+    "access": null,
+    "description": null,
+    "builtinExternal": true
+  }
+]
